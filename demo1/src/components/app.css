@@ -1,9 +1,9 @@
-.index-logo{
+.app-logo{
     with:200px;
     height: 200px;
 }
 
-.index-title{
-    color: red;
+.app-title{
+    color: green;
     font-size: 25px;
 }
