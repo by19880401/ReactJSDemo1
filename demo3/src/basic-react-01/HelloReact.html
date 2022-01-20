@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello React 01</title>
+
+    <!-- react版本不能大于15.x，否则浏览器报错，不会显示页面，不知何原因 -->
+
+    <!--引入react相关的库-->
+    <!--<script src="https://cdn.bootcdn.net/ajax/libs/react/15.6.2/react.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/react-dom/15.6.2/react-dom.js"></script>-->
+    <script type="text/javascript" src="../common-js/react.js"></script>
+    <script type="text/javascript" src="../common-js/react-dom.js"></script>
+    <!--babel用于解析JSX语法代码转为纯JS语法代码-->
+    <!--<script src="https://cdn.bootcdn.net/ajax/libs/babel-core/5.8.9/browser.js"></script>-->
+    <script type="text/javascript" src="../common-js/browser.js"></script>
+
+    <!--babel用于解析jsx的代码-->
+    <script type="text/babel">
+        // 1 创建虚拟dom元素对象
+        const vDom = <h1>hello react</h1>;
+        // 2 将虚拟dom渲染到页面真实的dom容器中
+        ReactDOM.render(vDom, document.getElementById("root"));
+    </script>
+
+</head>
+<body>
+<div id="root"></div>
+</body>
+</html>
