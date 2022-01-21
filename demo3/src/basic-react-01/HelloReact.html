@@ -18,7 +18,7 @@
     <!--babel用于解析jsx的代码-->
     <script type="text/babel">
         // 1 创建虚拟dom元素对象
-        const vDom = <h1>hello [白思萌]和[白思齐]</h1>;
+        const vDom = <h1>hello [白思萌]和[白思齐]</h1>;//若使用text/babel，则表示支持jsx，可以直接在js中写html标签
         // 2 将虚拟dom渲染到页面真实的dom容器中
         ReactDOM.render(vDom, document.getElementById("root"));
     </script>
