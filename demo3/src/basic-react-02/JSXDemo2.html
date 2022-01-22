@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JSX样例使用2</title>
+
+    <!--
+    需求的效果：
+    <div id="test1">
+        <h2 id="willis-bai">I LOVE YOU</h2>
+    </div>
+    <div id="test2">
+        <h3 id="WILLIS-BAI">i love you</h3>
+    </div>
+
+    -->
+</head>
+<body>
+<div id="test1"></div>
+<div id="test2"></div>
+
+<!--这次我们把react的引入放在body标签里-->
+<!-- 版本是15.6.2-->
+<script type="text/javascript" src="../common-js/react.js"></script>
+<script type="text/javascript" src="../common-js/react-dom.js"></script>
+<!-- 版本是5.8.9-->
+<script type="text/javascript" src="../common-js/browser.js"></script>
+
+<!--使用纯react的方式，非JSX-->
+<script type="text/javascript">
+    const msg1 = "I Love You";
+    const msgId = "WILLIS-BAI";
+
+    // 1 创建虚拟DOM
+    const vDom1 = React.createElement("h2", {id: msgId.toLowerCase()}, msg1.toUpperCase());
+    // 2 渲染
+    ReactDOM.render(vDom1, document.getElementById("test1"));
+</script>
+<!--使用JSX-->
+<script type="text/babel">
+    // 1 创建虚拟DOM
+    const vDom2 = <h3 id={msgId.toUpperCase()}>{msg1.toLowerCase()}</h3>; // babel会把这一行的JSX代码最终转换为上例1里的js代码在浏览器中输出
+    // 2 渲染
+    ReactDOM.render(vDom2, document.getElementById("test2"));
+</script>
+
+</body>
+</html>

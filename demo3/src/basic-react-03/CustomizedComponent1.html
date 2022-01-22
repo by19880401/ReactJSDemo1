@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>React自定义组件1</title>
+
+    <!--注意：
+    react自定义组件都是以大写字母开头，为与html里标签区别，html里标签都是以小写字母开头
+
+    -->
+</head>
+<body>
+<div id="example1"></div>
+<div id="example2"></div>
+
+<!-- 版本是15.6.2-->
+<script type="text/javascript" src="../common-js/react.js"></script>
+<script type="text/javascript" src="../common-js/react-dom.js"></script>
+<!-- 版本是5.8.9-->
+<script type="text/javascript" src="../common-js/browser.js"></script>
+
+<script type="text/babel">
+    // 1 定义组件
+    // 有两种定义组件的方式，两种都经常使用，其一：工厂函数组件（简单组件）
+    function MyComponent1() {
+        return (<h2>工厂函数组件（简单组件）</h2>);
+    }
+
+    // 其二：ES6类组件（复杂组件）
+    class MyComponent2 extends React.Component {
+        render() {
+            console.log(this);//打印MyComponent2组件对象
+            return (<h2>ES6类组件（复杂组件）</h2>);
+        }
+    }
+
+    // 2 渲染组件标签
+    ReactDOM.render(<MyComponent1/>, document.getElementById("example1"));
+    ReactDOM.render(<MyComponent2/>, document.getElementById("example2"));
+</script>
+
+</body>
+</html>

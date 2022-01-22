@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JSX样例使用3</title>
+
+    <!--
+    需求的效果：
+    在html页面中遍历数据内容，并显示：
+    *jquery
+    *zeptoo
+    *angular
+    *react
+    *vue
+    -->
+
+
+</head>
+<body>
+<div id="root"></div>
+<!-- 版本是15.6.2-->
+<script type="text/javascript" src="../common-js/react.js"></script>
+<script type="text/javascript" src="../common-js/react-dom.js"></script>
+<!-- 版本是5.8.9-->
+<script type="text/javascript" src="../common-js/browser.js"></script>
+
+<script type="text/babel">
+    // 动态展示下述数据
+    const names = ["jquery", "zeptoo", "angular", "react", "vue"];
+    // 1 创建虚拟DOM
+    const ul = (<ul>{names.map((name, index) => <li key={index}>{name}</li>)}</ul>);
+    // 2 渲染
+    ReactDOM.render(ul, document.getElementById("root"));
+</script>
+
+</body>
+</html>

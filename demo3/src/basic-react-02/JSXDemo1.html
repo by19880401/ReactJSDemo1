@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JSX样例使用1</title>
+    <!-- 版本是15.6.2-->
+    <script type="text/javascript" src="../common-js/react.js"></script>
+    <script type="text/javascript" src="../common-js/react-dom.js"></script>
+    <!-- 版本是5.8.9-->
+    <script type="text/javascript" src="../common-js/browser.js"></script>
+
+    JSX = JavaScript + XML (JSX在浏览器中不能被识别，需要使用babel转化)
+    babel.js的作用：
+    1）浏览器不能直接解析JSX代码，需要babel转译为纯JS的代码才能运行；
+    2）只要用了JSX，都要加上type="text/babel"，声明需要babel来处理；
+    <!--
+    js在Html中以两种方式存在，一种是直接以<script></script>标签的代码形式，一种是写在单独的js文件中，然后引入到html中的方式
+    这两种方式，都可以放在<head></head>标签或<body></body>标签内部
+
+    注意：
+    <head></head>中的js会在页面元素加载前执行，这时，<body></body>中的DOM元素还没有解析，具体放在哪根据需要即可
+        （1）不能将需要访问dom元素的js放在body之前，因为此时还没有开始生成dom，所以在body之前的访问dom元素的js会出错，或者无效。
+        （2）按照惯例脚本是放在head标签里的，但是因为浏览器会在遇到body标签时才会显示内容，
+        那么把脚本放在head标签中需要加载，解析，执行所有的JavaScript代码才显示内容，会造成不好的用户体验，
+        而放在body标签中会解决这个问题（一般把脚本放在body的最后面）
+    -->
+
+</head>
+<body>
+<div id="root"></div>
+<!-- 方式一：纯React方式操作，不使用JSX--（不推荐）-->
+<script type="text/javascript">
+    const div = React.createElement('div', {className: 'div-ele', id: '123'}, 'this is div');
+    const h1ele = React.createElement('h1', {id: '111'}, 'this is h1');
+    const divEle = React.createElement('div', {className: 'div-ele', id: '123'}, h1ele, div);
+    ReactDOM.render(divEle, document.getElementById("root1"));
+</script>
+<!-- 方式二：使用JSX--,上述可如下写（推荐）-->
+<script type="text/babel">
+    const element = <div className="div-ele" id="123"><h1 id="111">this is h1</h1>
+        <div className="div-ele" id="123">this is div</div>
+    </div>;
+    ReactDOM.render(element, document.getElementById("root"));
+</script>
+</body>
+</html>
