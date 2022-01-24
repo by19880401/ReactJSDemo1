@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>React自定义组件3-props属性</title>
+
+    <!--需求效果如下：
+    自定义组件，该组件具有以下功能：
+    同一个组件<Person/>，根据人员信息不同，显示两组人员信息
+    *姓名：Tom
+    *性别：女
+    *年龄：18
+    --------
+    *姓名：Jack
+    *性别：男
+    *年龄：17
+
+    需求说明：（1）如果性别没有指定，默认为男；（2）如果年龄没有指定，默认为18
+
+    注意：当前的组合是没有“状态”的，所以，可以使用工厂函数组件（简单组件）
+
+    -->
+
+</head>
+<body>
+<div id="example1"></div>
+<div id="example2"></div>
+
+<!-- 版本是15.6.2-->
+<script type="text/javascript" src="../common-js/react.js"></script>
+<script type="text/javascript" src="../common-js/react-dom.js"></script>
+<!-- 类型校验-->
+<script src="https://cdn.bootcdn.net/ajax/libs/prop-types/15.8.1/prop-types.js"></script>
+
+<!-- 版本是5.8.9-->
+<script type="text/javascript" src="../common-js/browser.js"></script>
+
+<script type="text/babel">
+    // 1 定义组件,任何一个组件，都可以传递一个props，用于参数的传递
+    function Person(props) {
+        return (
+            <ul>
+                <li>姓名：{props.myname}</li>
+                <li>年龄：{props.myage}</li>
+                <li>性别：{props.mysex}</li>
+            </ul>
+        );
+    }
+
+    // 指定组件属性的默认值
+    Person.defaultProps = {
+        myage: 18, // 如果不指定年龄，默认为18
+        mysex: "男" // 如果不指定性别，默认为“男”
+    }
+
+    // 对props中的属性值进行类型限制和必要性限制
+    Person.propTypes = {
+        myname: PropTypes.string.isRequired,//限制myname为字符串，并且为必填项
+        myage: PropTypes.number //限制myage类型为number
+    }
+
+    // 2 组装需要传递的参数的数据
+    const p1 = {
+        name: "Tom",
+        age: 18,
+        sex: "女"
+    }
+
+    const p2 = {
+        name: "Jack",
+        age: "19" // 由于上述限制类型为number,此处传递字符串，则会报错：Failed prop type: Invalid prop `myage` of type `string` supplied to `Person`, expected `number` in Person
+    }
+
+    // 3 渲染组件
+    ReactDOM.render(<Person myname={p1.name} myage={p1.age} mysex={p1.sex}/>, document.getElementById("example1"));
+    ReactDOM.render(<Person myname={p2.name} /*myage={p2.age}*//>, document.getElementById("example2"));
+
+</script>
+
+
+</body>
+</html>
