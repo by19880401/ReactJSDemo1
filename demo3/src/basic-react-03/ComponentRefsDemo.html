@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>React自定义组件4-refs属性</title>
+</head>
+<body>
+<div id="root"></div>
+
+<!-- 版本是15.6.2-->
+<script type="text/javascript" src="../common-js/react.js"></script>
+<script type="text/javascript" src="../common-js/react-dom.js"></script>
+<!-- 类型校验-->
+<script src="https://cdn.bootcdn.net/ajax/libs/prop-types/15.8.1/prop-types.js"></script>
+
+<!-- 版本是5.8.9-->
+<script type="text/javascript" src="../common-js/browser.js"></script>
+
+<script type="text/babel">
+
+    // 1 定义组件，当你不确定将要写的组件是否有状态时，推荐使用ES6类组件（复杂组件）的方式
+    class MyComponent extends React.Component {
+        constructor(props) { // 固定写法
+            super(props);
+
+            // 固定写法，只要有新增的自定义函数，测所有的新增的自定义函数都需要绑定一下this
+            this.showInputText = this.showInputText.bind(this);
+            this.handleBlur = this.handleBlur.bind(this);
+        }
+
+        showInputText() {
+            // 官方不推荐，也不弃用
+            const inputObj = this.refs.content;//由于每个html组件都可以使用ref标识， 所以这里官方用refs表示多个html组件的对象集合，后面是具体某个组件的标识content，返回html对象
+            //alert(inputObj.value);//html组件的值
+
+            // 这里this里的input组件，就能获取到当前input组件了，进而取到里面的值
+            const inputObj1 = this.input;
+            alert(inputObj1.value); // html组件的值
+
+        }
+
+        // 所有的事件函数，都有一个形参，叫event
+        handleBlur(event) {
+            const inputVal = event.target.value;
+            alert(inputVal);
+        }
+
+        render() {
+            return (
+                <div>
+                    <input type="text" ref="content"/> /*ref类似于id，用于标识当前input组件*/
+                    <input type="text" ref={(currentInput) => this.input = currentInput}/>/*把当前的input组件（currentInput）赋给this里的input组件*/
+                    <button onClick={this.showInputText}>提示输入</button>&nbsp;
+                    <input type="text" placeholder="失去焦点时提示内容" onBlur={this.handleBlur}/>
+                </div>
+            );
+        }
+    }
+
+    // 2 渲染组件
+    ReactDOM.render(<MyComponent/>, document.getElementById("root"));
+
+</script>
+
+</body>
+</html>
