@@ -30,12 +30,12 @@
 
         showInputText() {
             // 官方不推荐，也不弃用
-            const inputObj = this.refs.content;//由于每个html组件都可以使用ref标识， 所以这里官方用refs表示多个html组件的对象集合，后面是具体某个组件的标识content，返回html对象
-            //alert(inputObj.value);//html组件的值
+            const inputComponent1 = this.refs.content;//由于每个html组件都可以使用ref标识， 所以这里官方用refs表示多个html组件的对象集合，后面是具体某个组件的标识content，返回html对象
+            //alert(inputComponent1.value);//html组件的值
 
             // 这里this里的input组件，就能获取到当前input组件了，进而取到里面的值
-            const inputObj1 = this.input;
-            alert(inputObj1.value); // html组件的值
+            const inputComponent2 = this.input;
+            alert(inputComponent2.value); // html组件的值
 
         }
 
