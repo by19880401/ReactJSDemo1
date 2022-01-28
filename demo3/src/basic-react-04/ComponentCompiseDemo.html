@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>React的三大属性：state、props和refs的组合使用</title>
+</head>
+<body>
+<div id="root"></div>
+<!-- 版本是15.6.2-->
+<script type="text/javascript" src="../common-js/react.js"></script>
+<script type="text/javascript" src="../common-js/react-dom.js"></script>
+<!-- 类型校验-->
+<script src="https://cdn.bootcdn.net/ajax/libs/prop-types/15.8.1/prop-types.js"></script>
+<!-- 版本是5.8.9-->
+<script type="text/javascript" src="../common-js/browser.js"></script>
+
+<script type="text/babel">
+
+    /*
+    * 问题：数据保存在哪个组件内？
+    * 答：看数据，如果数据是某个组件用，则保存在这个组件里；如果数据是某些组件用，则保存在它们共同的父组件里
+    *
+    * 在子组件中改变父组件的状态
+    * 子组件中不能直接改变父组件的状态
+    * 状态在哪个组件，更新状态的行为就应该定义在哪个组件
+    * 解决：父组件中定义函数，传递给子组件，子组件调用
+    *
+    *
+    * IMPORTANT NOTES:
+    * React开发UI的步骤：
+    * 1.拆分组件，把一个完整的界面，分拆为多个组件的形式
+    * 2.实现静态组件（只有静态界面，没有动态数据和交互）
+    * 3.实现动态组件：1）实现初始化数据动态显示；2）实现交互功能（绑定等）
+    *
+    *
+    * */
+
+    // App组件，父组件，是Add组件和List组件共同的父亲
+    class App extends React.Component {// React.Component中Component首字母是大写的，切记
+        // 初始化数据
+        constructor(props) {
+            super(props);
+            // 初始化状态
+            this.state = {
+                todos: ['1', '2', '3']
+            }
+
+            this.handleAdd = this.handleAdd.bind(this);
+        }
+
+        // 定义在父组件的更新方法
+        handleAdd(todo) {//传入的形参
+            // this.state.todos.unshift(todo); //不能这么做，因为这样只是更新了数组而并未更新state，不更新state就不会生效
+            const {todos} = this.state;//从state中解构出todos数组
+            todos.unshift(todo);//把新增加的、要更新的元素添加到todos数组的头部中
+            this.setState({todos: todos});// 更新state，必须要使用setState()来更新，第一个todos是state里定义的，第二个todos是更新后的值，把第二个赋值给第一个
+        }
+
+        render() {
+            /*注意：下面Add组件和List组件里的count、todoList等属性名称都是任意写的，但这个名称要与Add组件和List里解构时显示的属性名称要一致*/
+            const {todos} = this.state;
+            return (
+                <div>/*任何一个react组件，返回时，只能有一个根容器标签*/
+                    <h1>A Simple Todo List</h1>
+                    <Add count={todos.length} handleAdd={this.handleAdd}/>
+                    <List todoList={todos}/>
+                </div>
+            )
+        }
+    }
+
+    // Add组件，子组件
+    class Add extends React.Component {
+        constructor(props) {
+            super(props);
+            // 将新增的方法中的this强制绑定为组件对象，固定写法
+            this.handleClick = this.handleClick.bind(this);
+        }
+
+
+        // 处理click动作, 此方法是属于Add组件的，所以要写在该组件内
+        handleClick() {
+            // 1 获取输入框中的输入值
+            const inputVal = this.todoInput.value.trim();
+            // 2 检查合法性
+            if (!inputVal) {//如果输入值为非法、为空等，则直接返回，不继续，什么也不做
+                return;
+            }
+            // 3 调用父组件的handleAdd方法，用以执行添加操作
+            this.props.handleAdd(inputVal);
+
+            // 4 清除输入框里的值
+            this.todoInput.value = '';
+        }
+
+        render() {
+            const {count} = this.props;
+            return (
+                <div>
+                    <input type="text" placeholder="请在此处插入列表元素" ref={(inputObj) => this.todoInput = inputObj}/>
+                    <button onClick={this.handleClick}>Add #{count + 1}</button>
+                </div>
+            )
+        }
+    }
+
+    // 声明Add组件中的参数,Add组件中所有参数，都需要在这里进行事先声明才可以使用
+    Add.popTypes = {
+        count: PropTypes.number.isRequired,
+        handleAdd: PropTypes.func.isRequired
+    }
+
+    // List组件，子组件
+    class List extends React.Component {
+        /*constructor(props) {
+            super(props);
+        }*/
+        render() {
+            const {todoList} = this.props;// this.props即是传给该组件的参数，与上面构造函数里的props是一样的
+            return (
+                <ul>
+                    {
+                        todoList.map((todo, index) => <li key={index}>{todo}</li>)
+                    }
+                </ul>
+            )
+        }
+
+    }
+
+    // 声明List组件中的参数
+    List.popTypes = {
+        todoList: PropTypes.array.isRequired
+    }
+
+    // 渲染
+    ReactDOM.render(<App/>, document.getElementById("root"));
+
+
+</script>
+</body>
+</html>
