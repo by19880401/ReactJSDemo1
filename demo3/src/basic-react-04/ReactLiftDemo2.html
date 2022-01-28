@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>React组件的生命周期2--一个小演示</title>
+
+
+</head>
+<body>
+<div id="root"></div>
+<!-- 版本是15.6.2-->
+<script type="text/javascript" src="../common-js/react.js"></script>
+<script type="text/javascript" src="../common-js/react-dom.js"></script>
+<!-- 类型校验-->
+<script src="https://cdn.bootcdn.net/ajax/libs/prop-types/15.8.1/prop-types.js"></script>
+<!-- 版本是5.8.9-->
+<script type="text/javascript" src="../common-js/browser.js"></script>
+
+<script type="text/babel">
+
+
+    // 定义一个组件，来看一看
+    class ReactComponentLifeDemo extends React.Component {
+        // 1 构造器
+        constructor(props) {
+            super(props);
+
+            this.state = {
+                opacity: 1
+            }
+
+            this.handleClick = this.handleClick.bind(this);
+        }
+
+        handleClick() {
+            // 卸载组件
+            ReactDOM.unmountComponentAtNode(document.getElementById("root"));
+
+        }
+
+        // 组件渲染之后执行此方法
+        componentDidMount() {
+            // 启动循环定时器，1000毫秒是1秒，即每1秒执行一次function(){}函数
+            this.intervalId = setInterval(function () {
+                console.log("定时器启动");
+                let {opacity} = this.state;
+                opacity = opacity - 0.1;// 每次opacity减少0.1
+                if (opacity <= 0) {//当opacity减少到0或者0以下值时，重置其为1，再次进行衰减操作
+                    opacity = 1;
+                }
+                this.setState({opacity: opacity});//注意：这里的this。是定时器的this，需要bind为ReactComponentLifeDemo的this
+
+            }.bind(this), 1000);//单位：毫秒
+        }
+
+        componentWillUnmount() {
+            clearInterval(this.intervalId);
+        }
+
+        render() {
+            const {opacity} = this.state;
+            return (
+                <div>
+                    // opacity是CSS中用来控制元素的不透明级别，默认是1，0~1由浅而深
+                    <h1 style={{opacity: opacity}}>{this.props.msg}</h1>
+                    <button onClick={this.handleClick}>卸载组件，结束其生命</button>
+                </div>
+            );
+        }
+
+    }
+
+    ReactDOM.render(<ReactComponentLifeDemo msg="React组件的生命周期"/>, document.getElementById("root"));
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>React组件的生命周期</title>
+
+    /*
+    控制台打印：
+    1--constructor()--构造器 browser.js line 5615 > Function:25:17
+    2--componentWillMount()--组件将要被挂载 browser.js line 5615 > Function:31:21
+    3 --render()--开始渲染组件，拼接出组件的模样 browser.js line 5615 > Function:41:21
+    4--componentDidMount--组件挂载结束
+
+    */
+
+</head>
+<body>
+<div id="root"></div>
+<!-- 版本是15.6.2-->
+<script type="text/javascript" src="../common-js/react.js"></script>
+<script type="text/javascript" src="../common-js/react-dom.js"></script>
+<!-- 类型校验-->
+<script src="https://cdn.bootcdn.net/ajax/libs/prop-types/15.8.1/prop-types.js"></script>
+<!-- 版本是5.8.9-->
+<script type="text/javascript" src="../common-js/browser.js"></script>
+
+<script type="text/babel">
+
+
+    // 定义一个组件
+    class ReactComponentLifeDemo extends React.Component {
+        // 1 构造器
+        constructor(props) {
+            super(props);
+            console.log("1--constructor()--构造器")
+        }
+
+        componentWillMount() {
+            console.log("2--componentWillMount()--组件将要被挂载")
+        }
+
+        componentDidMount() {
+            console.log("4--componentDidMount--组件挂载结束")
+        }
+
+        render() {
+            console.log("3 --render()--开始渲染组件，拼接出组件的模样")
+            return (<div><h1>React组件的生命周期</h1></div>);
+        }
+
+    }
+
+    ReactDOM.render(<ReactComponentLifeDemo/>, document.getElementById("root"));
+
+</script>
+
+</body>
+</html>
