@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义包含表单的组件</title>
+
+    使用refs的方式收拾数据
+
+    /*
+    需求：自定义包含表单的组件
+    1.界面如下所示
+    2.输入用户名和密码，点击登陆按钮后，提示输入的用户名和密码信息
+    3.不提交表单(表单不要自动提交)
+    */
+
+    非受控组件：需要时才手动读取表单输入框中的数据
+    当前组件属于非受控组件，当需要用户和密码等数据时，需要手动去获取，而不能从state里直接取得
+
+
+</head>
+<body>
+<div id="root"></div>
+<!-- 版本是15.6.2-->
+<script type="text/javascript" src="../common-js/react.js"></script>
+<script type="text/javascript" src="../common-js/react-dom.js"></script>
+<!-- 类型校验-->
+<script src="https://cdn.bootcdn.net/ajax/libs/prop-types/15.8.1/prop-types.js"></script>
+<!-- 版本是5.8.9-->
+<script type="text/javascript" src="../common-js/browser.js"></script>
+
+<script type="text/babel">
+
+    class LoginForm extends React.Component {
+        constructor(props) {
+            super(props);
+
+            // bind this
+            this.handleSubmit = this.handleSubmit.bind(this);
+        }
+
+
+        // handle submit button action
+        handleSubmit(event) {
+            const user = this.userInput.value;
+            const pwd = this.pwdInput.value;
+            alert('将提交的表单数据，用户名：' + user + '，密码：' + pwd);
+
+            // 阻止事件的默认行为（提交）
+            event.preventDefault();
+        }
+
+        /*
+        * 表单的提交，有两种方式：
+        * 1）form标签里加onSubmit事件；
+        * 2）提交按钮里加onClick事件
+        *
+        * 表单里有个默认的action，用于指向提交的表单数据对应的请求类
+        *
+        * */
+
+        render() {
+            return (
+                <form action="/login" onSubmit={this.handleSubmit}>
+                    用户：<input type="text" ref={(username) => this.userInput = username}/>
+                    密码：<input type="password" ref={(pwd) => this.pwdInput = pwd}/>
+                    <input type="submit" value="登陆" /*onClick={this.handleSubmit}*//> /*表单的提交按钮，建议使用这个*/
+                </form>
+            );
+        }
+    }
+
+    // 渲染
+    ReactDOM.render(<LoginForm/>, document.getElementById("root"));
+
+</script>
+
+
+</body>
+</html>

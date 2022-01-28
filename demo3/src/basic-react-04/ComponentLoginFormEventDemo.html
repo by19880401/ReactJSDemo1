@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义包含表单的组件</title>
+
+    使用event的方式收拾数据
+
+    /*
+    需求：自定义包含表单的组件
+    1.界面如下所示
+    2.输入用户名和密码，点击登陆按钮后，提示输入的用户名和密码信息
+    3.不提交表单(表单不要自动提交)
+    */
+
+
+    受控组件：表单项输入数据能自动收集成状态
+
+    当前的组件就属于受控组件，因为可以自动把用户名和密码等数据收到至state里，需要时，直接从state里取
+
+</head>
+<body>
+<div id="root"></div>
+<!-- 版本是15.6.2-->
+<script type="text/javascript" src="../common-js/react.js"></script>
+<script type="text/javascript" src="../common-js/react-dom.js"></script>
+<!-- 类型校验-->
+<script src="https://cdn.bootcdn.net/ajax/libs/prop-types/15.8.1/prop-types.js"></script>
+<!-- 版本是5.8.9-->
+<script type="text/javascript" src="../common-js/browser.js"></script>
+
+<script type="text/babel">
+
+    class LoginForm extends React.Component {
+        constructor(props) {
+            super(props);
+
+            // 在state里定义变量
+            this.state = {
+                username: '',
+                pwd: ''
+            }
+
+            // bind this
+            this.handleSubmit = this.handleSubmit.bind(this);
+            this.handleUser = this.handleUser.bind(this);
+            this.handlePwd = this.handlePwd.bind(this);
+        }
+
+        handleSubmit(event) {
+            // 由于下述已经处理后的值全部更新至state里，这里可以直接从state里取值即可
+            const {username} = this.state;
+            const {pwd} = this.state;
+            alert('将提交的表单数据，用户名：' + username + '，密码：' + pwd);
+
+            // 阻止事件的默认行为（提交）
+            event.preventDefault();
+        }
+
+        // 任何一个react封装的事件函数，比如onChange、onBlur等，都有一个默认的事件参数event
+        handleUser(event) {
+            // 1 要改变state时，第一步一定是要把原state值读(解构)出来
+            const {username} = this.state;
+            // 2 获取新值
+            const name = event.target.value;
+            // 3 将新值 更新至state里
+            this.setState({username: name});
+        }
+
+        handlePwd(event) {
+            // 1 解构state里的密码变量值
+            const {pwd} = this.state;
+            // 2 获取form表单组件里的新值
+            const password = event.target.value;
+            // 3 更新state，特别注意：当新旧变量名一致时，可以只写一个
+            this.setState({pwd: password});
+        }
+
+
+        /*
+        * 表单的提交，有两种方式：
+        * 1）form标签里加onSubmit事件；
+        * 2）提交按钮里加onClick事件
+        *
+        * 表单里有个默认的action，用于指向提交的表单数据对应的请求类
+        *
+        * */
+
+        render() {
+            return (
+                <form action="/login" onSubmit={this.handleSubmit}>
+                    用户：<input type="text" onChange={this.handleUser}/>
+                    密码：<input type="password" onChange={this.handlePwd}/>
+                    <input type="submit" value="登陆"/> /*表单的提交按钮，建议使用这个*/
+                </form>
+            );
+        }
+    }
+
+    // 渲染
+    ReactDOM.render(<LoginForm/>, document.getElementById("root"));
+
+</script>
+
+
+</body>
+</html>
