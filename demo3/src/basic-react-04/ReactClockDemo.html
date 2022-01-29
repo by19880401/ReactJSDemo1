@@ -16,22 +16,25 @@
 
 <script type="text/babel">
 
-    class Clock extends React.Component{
-        render(){
-            return (
-                <div>
-                    <h1>Hello World</h1>
-                    <h2>It's {new Date().toLocaleTimeString()}</h2>
-                </div>
-            );
+    // 由于要使用定时器不断地更新组件里的时间，所以需要使用一个函数Clock把组件封装起来，以供下方的定时器整体调用渲染
+    function clock() {
+        class Clock extends React.Component {
+            render() {
+                return (
+                    <div>
+                        <h1>Hello World</h1>
+                        <h2>It's {new Date().toLocaleTimeString()}</h2>
+                    </div>
+                );
+            }
         }
+
+        ReactDOM.render(<Clock/>, document.getElementById("root"));
     }
 
-    ReactDOM.render(<Clock/>, document.getElementById("root"));
 
-
-    // 定时器
-    setInterval()
+    // 定时器，每100毫秒执行一次组件的渲染，使组件里的时间可以动态地不断“刷新”实时显示
+    setInterval(clock, 100);
 
 </script>
 
