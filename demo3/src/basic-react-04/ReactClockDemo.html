@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>基于React的时钟小组件</title>
+</head>
+<body>
+<div id="root"></div>
+<!-- 版本是15.6.2-->
+<script type="text/javascript" src="../common-js/react.js"></script>
+<script type="text/javascript" src="../common-js/react-dom.js"></script>
+<!-- 类型校验-->
+<script src="https://cdn.bootcdn.net/ajax/libs/prop-types/15.8.1/prop-types.js"></script>
+<!-- 版本是5.8.9-->
+<script type="text/javascript" src="../common-js/browser.js"></script>
+
+<script type="text/babel">
+
+    class Clock extends React.Component{
+        render(){
+            return (
+                <div>
+                    <h1>Hello World</h1>
+                    <h2>It's {new Date().toLocaleTimeString()}</h2>
+                </div>
+            );
+        }
+    }
+
+    ReactDOM.render(<Clock/>, document.getElementById("root"));
+
+
+    // 定时器
+    setInterval()
+
+</script>
+
+</body>
+</html>
