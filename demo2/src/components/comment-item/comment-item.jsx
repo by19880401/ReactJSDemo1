@@ -1,14 +1,24 @@
 import React, {Component} from "react";
-import CommentList from "../comment-list/comment-list";
+import PropTypes from "prop-types";
 
-class CommentItem extends Component{
+class CommentItem extends Component {
+
+    // 首先，声明参数类型
+    static propTypes = {
+        comment: PropTypes.object.isRequired
+    }
+
     render() {
+        // 然后，接受参数
+        const {comment} = this.props;
         return (
-            <div className="reply">
-                <h3>评论回复</h3>
-                <h2 style={{display:'none'}}>暂无评论，请点击左侧添加评论！</h2>
-                <CommentList/>
-            </div>
+            <li>
+                <div>
+                    <a href="javascript:;">删除</a>
+                </div>
+                <p className="user"><span>{comment.username}</span><span>说：</span></p>
+                <p>{comment.content}</p>
+            </li>
         )
     }
 }
