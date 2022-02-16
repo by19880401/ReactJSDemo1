@@ -7,21 +7,23 @@ class CommentList extends Component {
 
     // （推荐）优雅的方式，声明子组件类属性参数
     static propTypes = {
-        comments: PropTypes.array.isRequired
+        comments: PropTypes.array.isRequired,
+        delComment: PropTypes.func.isRequired
     }
 
     render() {
 
         // 接受父组件传递过来的参数
-        const {comments} = this.props;
+        const {comments, delComment} = this.props;
+        const commentsSize = comments.length === 0 ? 'block' : 'none';// 当comments长度为0时，显示h2标签里的内容
         return (
             <div>
                 <div className="reply">
                     <h3>评论回复</h3>
-                    <h2 style={{display: 'none'}}>暂无评论，请点击左侧添加评论！</h2>
+                    <h2 style={{display: commentsSize}}>暂无评论，请点击左侧添加评论！</h2>
                     <ul className="list-group">
                         {
-                            comments.map((comment, index) => <CommentItem comment={comment} key={index}/>)
+                            comments.map((comment, index) => <CommentItem comment={comment} key={index} delComment={delComment} index={index}/>)
                         }
                     </ul>
                 </div>

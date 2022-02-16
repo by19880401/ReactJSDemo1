@@ -27,10 +27,18 @@ class App extends Component {
             {username: 'Willis', content: 'React太难了'}
         ]
     }
-    // 此方法，父组件并不会用，而是子组件为传递参数方便，交给子组件来调用传数据的
-    addComment=(comment)=>{
+    // 添加操作，此方法，父组件并不会用，而是子组件为传递参数方便，交给子组件来调用传数据的
+    addComment = (comment) => {
         const {comments} = this.state;
         comments.unshift(comment);
+        // 更新状态
+        this.setState({comments: comments})
+    }
+
+    // 删除操作，此方法，父组件并不会用，而是子组件为传递参数方便，交给子组件来调用传数据的
+    delComment = (index) => {
+        const {comments} = this.state;
+        comments.splice(index, 1);// 删除下标为index的1个comment
         // 更新状态
         this.setState({comments: comments})
     }
@@ -45,7 +53,7 @@ class App extends Component {
                     </div>
                 </header>
                 <CommentAdd addComment={this.addComment}/>
-                <CommentList comments={comments}/>
+                <CommentList comments={comments} delComment={this.delComment}/>
             </div>);
     }
 }
