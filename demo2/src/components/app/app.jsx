@@ -2,8 +2,8 @@ import React, {Component} from "react";
 
 import "./app.css"
 import CommentAdd from "../comment-add/comment-add";
-import CommentItem from "../comment-item/comment-item";
 import CommentList from "../comment-list/comment-list";
+import AxiosPage from "../axios-page/axios-page";
 
 class App extends Component {
 
@@ -52,6 +52,7 @@ class App extends Component {
                         <h1>请发表评论</h1>
                     </div>
                 </header>
+                <AxiosPage/>
                 <CommentAdd addComment={this.addComment}/>
                 <CommentList comments={comments} delComment={this.delComment}/>
             </div>);
