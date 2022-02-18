@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Axios Ajax Demo</title>
+
+    <!--
+    说明：
+    （1）React本身只关注于界面，并不包含发送ajax的代码；
+    （2）前端应用需要通过ajax请求与后台进行交互（json数据）
+    （3）React应用中需要集成第三方ajax（或自己封装）
+
+    如何选ajax库？
+    （1）jQuery：比较重，ajax只是jQuery封装的功能里的一部分，而因为你想用其中的ajax而把jQuery的所有功能全部引进来，不太合适
+    （2）axios：轻量级，建议使用
+        a.封装了XmlHttpRequest对象的ajax
+        b.promise风格
+        c.可以用在浏览器端和node服务器端
+    （3）fetch：原生函数，但老版本浏览器不支持
+        a.不再使用XmlHttpRequest对象提交ajax请求
+        b.为发兼容低版本的浏览器，可以引入兼容库fetch.js
+
+
+    -->
+
+</head>
+<body>
+<div id="root"></div>
+<!-- 版本是15.6.2-->
+<script type="text/javascript" src="../common-js/react.js"></script>
+<script type="text/javascript" src="../common-js/react-dom.js"></script>
+<!-- 类型校验-->
+<script src="https://cdn.bootcdn.net/ajax/libs/prop-types/15.8.1/prop-types.js"></script>
+<!-- 版本是5.8.9-->
+<script type="text/javascript" src="../common-js/browser.js"></script>
+
+<!--引入axios-->
+<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.26.0/axios.js"></script>
+
+<script type="text/babel">
+    class AxiosDemo extends React.Component {
+
+        constructor(props) {
+            super(props);
+            this.state = {
+                repoName: '',
+                repoUrl: ''
+            }
+        }
+
+        componentDidMount() {
+            axios.get('https://api.github.com/search/repositories?q=re&sort=stars').then(response => {
+                const result = response.data;
+                const {full_name, html_url} = result.items[0];
+                this.setState({repoName: full_name, repoUrl: html_url})
+            })
+        }
+
+
+        render() {
+            const {repoName, repoUrl} = this.state;
+            if (!repoName) {//如果repoName是空
+                return <h2>Loading....</h2>;
+            } else {
+                return <h2>The most star repo is <a href={repoUrl}>{repoName}</a></h2>;
+            }
+        }
+    }
+
+    ReactDOM.render(<AxiosDemo/>, document.getElementById("root"));
+</script>
+
+</body>
+</html>

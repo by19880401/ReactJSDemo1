@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fetch Ajax Demo</title>
+
+    <!--fetch是浏览器原生支持的，但旧的浏览器需要添加fetch.js来获得支持，fetch是promise风格的-->
+
+</head>
+<body>
+<div id="root"></div>
+<!-- 版本是15.6.2-->
+<script type="text/javascript" src="../common-js/react.js"></script>
+<script type="text/javascript" src="../common-js/react-dom.js"></script>
+<!-- 类型校验-->
+<script src="https://cdn.bootcdn.net/ajax/libs/prop-types/15.8.1/prop-types.js"></script>
+<!-- 版本是5.8.9-->
+<script type="text/javascript" src="../common-js/browser.js"></script>
+
+<!--引入axios-->
+<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.26.0/axios.js"></script>
+
+<script type="text/babel">
+    class AxiosDemo extends React.Component {
+
+        constructor(props) {
+            super(props);
+            this.state = {
+                repoName: '',
+                repoUrl: ''
+            }
+        }
+
+        componentDidMount() {
+            // 使用fetch发送异步的ajax请求
+            const url = 'https://api.github.com/search/repositories?q=re&sort=stars';
+            fetch(url).then(response => {
+                return response.json();//相当于response.data
+            }).then(data => {//这里的data就是上面response.json()返回的参数，即result
+                const {full_name, html_url} = data.items[0];
+                this.setState({repoName: full_name, repoUrl: html_url})
+            }).catch((error) => {// 异常处理
+                alert(error.message);
+            })
+        }
+
+
+        render() {
+            const {repoName, repoUrl} = this.state;
+            if (!repoName) {//如果repoName是空
+                return <h2>Loading....</h2>;
+            } else {
+                return <h2>The most star repo is <a href={repoUrl}>{repoName}</a></h2>;
+            }
+        }
+    }
+
+    ReactDOM.render(<AxiosDemo/>, document.getElementById("root"));
+</script>
+
+</body>
+</html>
