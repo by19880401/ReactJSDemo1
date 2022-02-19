@@ -35,7 +35,7 @@
             // 使用fetch发送异步的ajax请求
             const url = 'https://api.github.com/search/repositories?q=re&sort=stars';
             fetch(url).then(response => {
-                return response.json();//相当于response.data
+                return response.json();//相当于response.data，fetch方式独有的，必须要这么返回一下，下一步才能继续处理
             }).then(data => {//这里的data就是上面response.json()返回的参数，即result
                 const {full_name, html_url} = data.items[0];
                 this.setState({repoName: full_name, repoUrl: html_url})
