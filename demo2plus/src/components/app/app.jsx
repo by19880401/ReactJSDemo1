@@ -5,6 +5,8 @@ import CommentAdd from "../comment-add/comment-add";
 import CommentList from "../comment-list/comment-list";
 import AxiosPage from "../axios-page/axios-page";
 
+import PubSub from "pubsub-js";
+
 class App extends Component {
 
     // 一般，我们初始化state时，喜欢写在constructor内，有点冗余，并不优雅
@@ -43,6 +45,15 @@ class App extends Component {
         this.setState({comments: comments})
     }
 
+    // 组件加载完成后执行
+    componentDidMount() {
+        /*订阅消息，订阅操作越早越好，所以等到组件加载完成后(页面刚渲染好)，马上进行订阅
+        订阅消息之后，PubSub会一直监听所有发布有没有发布消息key是delComment的消息，如果发现有，马上执行删除操作*/
+        PubSub.subscribe('delComment', (msg, index) => {
+            this.delComment(index);
+        })
+    }
+
     render() {
         const {comments} = this.state;
         return (
@@ -54,7 +65,7 @@ class App extends Component {
                 </header>
                 <AxiosPage/>
                 <CommentAdd addComment={this.addComment}/>
-                <CommentList comments={comments} delComment={this.delComment}/>
+                <CommentList comments={comments} /*delComment={this.delComment}*//>
             </div>);
     }
 }
