@@ -30,11 +30,13 @@ class AxiosPage extends React.Component {
 
     render() {
         const {resMsg, resDataKey, resDataVal} = this.state;
+        const isShow = resDataKey.length === 0 ? 'none' : 'block';
+        debugger
         return (
             <div>
                 <button onClick={this.handleAxios}>发送axios请求</button>
                 <div>
-                    <h2>status:{resMsg}, map key: {resDataKey}, map val: {resDataVal}</h2>
+                    <h2 style={{display: isShow}}>status:{resMsg}, map key: {resDataKey}, map val: {resDataVal}</h2>
                 </div>
             </div>
         );

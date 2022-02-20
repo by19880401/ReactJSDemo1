@@ -1,5 +1,5 @@
 在基于demo2的基础上有以下两处改动：
-（1）axios功能里，默认或者没有返回任何值是，不再显示“”；
+（1）axios功能里，默认或者没有返回任何值是，不再显示“status:success, map key: normal, map val: 7da1d2e5-5820-46c9-99bf-5490be386553”；
 （2）comment功能里，使用pubsub.js进行转值；
 
 
