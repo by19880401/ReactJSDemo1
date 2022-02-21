@@ -1,6 +1,6 @@
 import React from "react";
 // react-router-dom从V5升级到V6后, Switch重命名为Routes
-import {NavLink, Routes, Route} from "react-router-dom";
+import {NavLink, Switch, Route, Redirect} from "react-router-dom";
 
 import About from "../pages/about";
 import Home from "../pages/home";
@@ -24,10 +24,11 @@ class App extends React.Component {
                     <div className="col-xs-6">
                         <div className="panel">
                             <div className="panel-body">
-                                <Routes>
-                                    <Route path="/about" element={<About/>}></Route>
-                                    <Route path="/home" element={<Home/>}></Route>
-                                </Routes>
+                                <Switch>
+                                    <Route path="/about" component={About}></Route>
+                                    <Route path="/home" component={Home}></Route>
+                                    <Redirect to="/home"/>
+                                </Switch>
                             </div>
                         </div>
                     </div>
