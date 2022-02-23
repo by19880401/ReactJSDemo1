@@ -22,7 +22,7 @@ class App extends React.Component {
                             <CustomNavLink className="list-group-item" to="/home">Home</CustomNavLink>
                         </div>
                     </div>
-                    <div className="col-xs-6">
+                    <div className="col-xs-8">
                         <div className="panel">
                             <div className="panel-body">
                                 <Switch>
