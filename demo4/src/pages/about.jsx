@@ -1,6 +1,6 @@
 import React from "react";
 
-import {Table, Tag, Space} from "antd";
+import {Table, Tag, Space, Button, Popover, Popconfirm} from "antd";
 
 
 class About extends React.Component {
@@ -21,7 +21,33 @@ class About extends React.Component {
                 age: 35,
                 address: 'Xi\'an Shen Shi Chang An #47'
             }
-        ]
+        ],
+        count: 2
+    }
+
+    // 添加一行操作
+    handleAdd = () => {
+        // 先取旧数据，才好在旧数据的基础上更新
+        const {count, data} = this.state;
+        // 组装新数据
+        const newRow = {
+            key: count,
+            sex: ['Female'],
+            name: `Child ${count}`, /*注：在JS中想要使用${}获取变量 要在 ` `中使用，注意是``（~的那个键） 不是 单引号*/
+            age: count,
+            address: 'Shan Xi, Xi\' an, Yan Tan Disc'
+        }
+        // 更新state
+        this.setState({data: [...data, newRow], count: count + 1})
+    }
+
+    // 删除一行，UI设计为有且仅删除一行
+    handleDelete = (key) => {
+        // 获取数据
+        const {data} = this.state;
+        const modifiedRow = (data.filter((item) => item.key !== key));
+        // 更新state
+        this.setState({data: modifiedRow});
     }
 
 
@@ -66,9 +92,14 @@ class About extends React.Component {
                 title: 'Action 操作',
                 key: 'action',
                 render: (text, record) => (
-                    <Space size='middle'>
-                        <a>Add {record.name}</a>
-                        <a>Delete</a>
+                    <Space>
+                        <Popover
+                            content={<div><p>{record.key}</p><p>{record.name}</p><p>{record.sex}</p><p>{record.age}</p>
+                                <p>{record.address}</p></div>} title="Person Information 人员信息"
+                            trigger="click"><a>Edit {record.name}</a></Popover>
+                        {this.state.data.length >= 1 ? (
+                            <Popconfirm title={"Sure to delete it?"}
+                                        onConfirm={() => this.handleDelete(record.key)}><a>Delete</a></Popconfirm>) : null}
                     </Space>
                 )
             }
@@ -76,7 +107,12 @@ class About extends React.Component {
         // 获取数据
         const {data} = this.state;
         // 渲染表格组件
-        return (<Table columns={columns} dataSource={data}/>);
+        return (
+            <div>
+                <Button type="primary" style={{marginBottom: 16}} onClick={this.handleAdd}>添加一行</Button>
+                <Table columns={columns} dataSource={data}/>
+            </div>
+        );
     }
 }
 

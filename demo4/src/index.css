@@ -1,6 +1,6 @@
-@import '~antd/dist/antd.css';/*引入antd样式*/
+@import '~antd/dist/antd.css'; /*引入antd样式,注：在引入antd后，会发现antd的组件样式不生效，我们需要在自己的样式文件中引入antd的样式，这样才会生效*/
 
 /*当你的样式有可能被覆盖时，如何才能确保不被覆盖，加!important*/
-.customActiveClass{
+.customActiveClass {
     color: red !important;
 }
