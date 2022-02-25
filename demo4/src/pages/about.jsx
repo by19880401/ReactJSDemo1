@@ -32,7 +32,7 @@ class About extends React.Component {
         // 组装新数据
         const newRow = {
             key: count,
-            sex: ['Female'],
+            sex: count % 2 == 0 ? ['Female'] : ['Male'], /*当count为偶数时，为Female，奇数时，为Male*/
             name: `Child ${count}`, /*注：在JS中想要使用${}获取变量 要在 ` `中使用，注意是``（~的那个键） 不是 单引号*/
             age: count,
             address: 'Shan Xi, Xi\' an, Yan Tan Disc'
